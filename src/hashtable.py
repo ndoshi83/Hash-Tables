@@ -51,7 +51,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        if self.storage[index] is not None:
+            print("Key already in use")
+        else:
+            self.storage[index] = value
 
 
 
@@ -63,7 +68,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        if self.storage[index] is not None:
+            self.storage[index] = None
+        else:
+            print("Value not present")
 
 
     def retrieve(self, key):
@@ -74,7 +84,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        return self.storage[index]
 
 
     def resize(self):
@@ -84,7 +96,7 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        
 
 
 
