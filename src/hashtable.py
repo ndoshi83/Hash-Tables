@@ -52,11 +52,16 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
+        node = self.storage[index]
 
-        if self.storage[index] is not None:
-            print("Key already in use")
+        if node is not None:
+            prev = node
+            while node is not None:
+                prev = node
+                node = node.next
+            prev.next = LinkedPair(key, value)
         else:
-            self.storage[index] = value
+            self.storage[index] = LinkedPair(key, value)
 
 
 
@@ -69,11 +74,20 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
+        node = self.storage[index]
+        prev = None
 
-        if self.storage[index] is not None:
-            self.storage[index] = None
+        while node is not None and node.key != key:
+            prev = node
+            node = node.next
+
+        if node is None:    
+            print("Value key not present")
         else:
-            print("Value not present")
+            if prev is None:
+                node = None
+            else:
+                prev.next = prev.next.next
 
 
     def retrieve(self, key):
@@ -85,8 +99,15 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
+        node = self.storage[index]
 
-        return self.storage[index]
+        while node is not None and node.key != key:
+            node = node.next
+
+        if node is None:
+            return None
+        else:
+            return node.value
 
 
     def resize(self):
@@ -96,6 +117,12 @@ class HashTable:
 
         Fill this in.
         '''
+        old = self.storage.copy()
+        self.capacity = self.capacity * 2
+        self.storage = [None] * self.capacity
+
+        for item in old:
+            self.insert(item.key, item.value)
         
 
 
